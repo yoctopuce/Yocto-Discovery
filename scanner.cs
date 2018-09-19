@@ -422,10 +422,10 @@ namespace YoctoDiscovery
 
      
       mustStop = false;
-      try
-      {
+    
         int n = 0;
         while (!mustStop)
+      { try
         {
           n++;
           if (YAPI.Sleep(100, ref errmsg) != YAPI.SUCCESS) log("Sleep  error: " + errmsg);
@@ -433,8 +433,9 @@ namespace YoctoDiscovery
           if (n%20 == 0) if (YAPI.TriggerHubDiscovery(ref errmsg) != YAPI.SUCCESS) log("TriggerHubDiscovery  error: " + errmsg);
 
         }
+        catch (Exception e) { log("Scanner error: " + e.Message); }
       }
-      catch (Exception e) { log("Fatal error: " + e.Message); }
+    
 
       YAPI.FreeAPI();
       _running = false; 
