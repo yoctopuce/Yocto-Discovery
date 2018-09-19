@@ -1,0 +1,12 @@
+Package: yoctodiscovery
+Version: 1.0.32155
+Sections: electronics
+Priority: optional
+Architecture: all
+Maintainer: Yoctopuce <dev@yoctopuce.com>
+Homepage:http://www.yoctopuce.com
+Installed-Size: 4000
+Section: electronics
+Description: Yocto-Discovery utility.
+ Yocto-Discovery will scan your local network as well as local
+ USB ports and list any Yoctopuce devices it may find.
