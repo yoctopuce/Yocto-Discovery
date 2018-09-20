@@ -418,7 +418,7 @@ namespace YoctoDiscovery
 
       }
 
-      //YAPI.SetDeviceListValidity(3600);
+      YAPI.SetDeviceListValidity(3600);
 
      
       mustStop = false;

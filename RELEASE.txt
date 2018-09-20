@@ -1,3 +1,3 @@
-Yocto-Discovery v1.0.32188
+Yocto-Discovery v1.0.32223
 
-- First release
+- First Release
