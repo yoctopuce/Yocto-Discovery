@@ -105,6 +105,8 @@ namespace YoctoDiscovery
     logFunction _log;
     bool _isNetworkDevice = false;
     bool _isShieldDevice = false;
+    bool  _readWriteCredentialsRequired = true;
+    bool _writeCredentialsRequired = true;
     bool _isonline = false;
     string _friendlyName = "";
     string _hardwareId = "";
@@ -123,6 +125,8 @@ namespace YoctoDiscovery
     public string serialNumber { get { return _serial; } }
     public string parentHub { get { return _parentHub; } }
     public bool beaconActive { get { return _beacon; } }
+    public bool readWriteCredentialsRequired { get { return _readWriteCredentialsRequired; } }
+    public bool writeCredentialsRequired { get { return _writeCredentialsRequired; } }
 
     List<int> hubPorts = new List<int>();
     List<Tuple<String, String, String>> functions = new List<Tuple<String, String, String>>(); 
@@ -264,13 +268,44 @@ namespace YoctoDiscovery
         _parentHub = (_url == "usb") ? "usb" : m.get_parentHub();
 
         if (_isNetworkDevice)
-        {
-          YNetwork n = YNetwork.FindNetwork(_serial + ".network");
-          _ipAddr = n.get_ipAddress();
-          _macAddr = n.get_macAddress();
+        { YNetwork n = YNetwork.FindNetwork(_serial + ".network");
+          if (_serial.Substring(0, 7) == "VIRTHUB")
+          {
+            string s = _url;
+            int p = s.IndexOf("//");
+            if (p>=0)
+            {
+              s = s.Substring(p + 2);
+              p = s.IndexOf("/");
+              if (p>=0) s = s.Substring(0,p);
+             
 
 
+            }
+            _ipAddr = s;
+            _macAddr = "N/A";
 
+          }
+          else
+          { 
+            
+            _ipAddr = n.get_ipAddress() + ":" + n.get_httpPort();
+            _macAddr = n.get_macAddress();
+
+            
+
+          }
+          string errmsg ="";
+          if (YAPI.TestHub(_url, 100, ref errmsg) == YAPI.UNAUTHORIZED)
+          {
+            _readWriteCredentialsRequired = true;
+
+          }
+          else
+          {
+            string p = n.get_adminPassword();
+            _writeCredentialsRequired = (p=="*****");
+          }
 
         }
 
@@ -322,6 +357,7 @@ namespace YoctoDiscovery
       d.init_node(m,true);
       _changeCallback(d);
       m.registerConfigChangeCallback(deviceConfigChange);
+      m.registerBeaconCallback(deviceBeaconChange);
 
     }
 
@@ -335,6 +371,11 @@ namespace YoctoDiscovery
         _changeCallback(d);
       }
 
+    }
+
+    private void deviceBeaconChange(YModule m, int state)
+    {
+      deviceConfigChange(m);
     }
 
     private void deviceConfigChange(YModule m)

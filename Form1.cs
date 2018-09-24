@@ -41,6 +41,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace YoctoDiscovery
@@ -51,17 +52,17 @@ namespace YoctoDiscovery
   public partial class Form1 : Form
   {
     const int OFFLINE_ICON = 0;
-    const int ONLINE_ICON  = 1;
-    const int BEACON_ICON  = 2;
-    const int ERROR_ICON   = 3;
-    Device _currentDevice  = null;
+    const int ONLINE_ICON = 1;
+    const int BEACON_ICON = 2;
+    const int ERROR_ICON = 3;
+    Device _currentDevice = null;
 
     Yscanner scanner = null;
-    Dictionary<string,Tuple< TreeNode,  Device>> nodeList = new Dictionary<string, Tuple<TreeNode, Device>>();
-
-   void SearchForDevices(string param)
+    Dictionary<string, Tuple<TreeNode, Device>> nodeList = new Dictionary<string, Tuple<TreeNode, Device>>();
+    LogManager logmgr;
+    void SearchForDevices(string param)
     {
-      if (param=="")
+      if (param == "")
       {
         foreach (var n in nodeList)
           n.Value.Item1.ForeColor = Color.Black;
@@ -77,33 +78,26 @@ namespace YoctoDiscovery
           n.Value.Item1.ForeColor = Color.Black;
           n.Value.Item1.EnsureVisible();
           count++;
-
         }
         else n.Value.Item1.ForeColor = Color.LightGray;
-
-        if (count ==0) searchresult.Text = "No match found";
+        if (count == 0) searchresult.Text = "No match found";
         else if (count == 1) searchresult.Text = "One match found";
-        else  searchresult.Text = count.ToString()+ " matches found";
-
-
-
+        else searchresult.Text = count.ToString() + " matches found";
       }
-
-
-
-
     }
 
 
-   public TreeNode FindNodeByName( string name)
+    public TreeNode FindNodeByName(string name)
     {
       if (!nodeList.ContainsKey(name)) return null;
       return nodeList[name].Item1;
     }
 
-   public Device FindDeviceByname(TreeNode t)     
-    { foreach(var n in nodeList)
-      {  if (n.Value.Item1 == t) return n.Value.Item2;
+    public Device FindDeviceByname(TreeNode t)
+    {
+      foreach (var n in nodeList)
+      {
+        if (n.Value.Item1 == t) return n.Value.Item2;
 
       }
       return null;
@@ -118,7 +112,7 @@ namespace YoctoDiscovery
 
       }
 
-      return d.beaconActive ? BEACON_ICON : (d.isOnline ? ONLINE_ICON : OFFLINE_ICON); 
+      return d.beaconActive ? BEACON_ICON : (d.isOnline ? ONLINE_ICON : OFFLINE_ICON);
 
     }
 
@@ -126,32 +120,34 @@ namespace YoctoDiscovery
     {
       if (DeviceTree.InvokeRequired)
       {
-        moduleChangeCallBack c = new moduleChangeCallBack(moduleChange);
-        Invoke(c, new object[] { d });
+        try {
+          moduleChangeCallBack c = new moduleChangeCallBack(moduleChange);
+          Invoke(c, new object[] { d });
+        } catch(Exception) { }
       }
       else
       {
         if (d.isNetworkDevice)
-         {
-           TreeNode n = FindNodeByName( d.serialNumber);
-           if (n == null)
-            {
-              n = new TreeNode();
-              n.Name = d.serialNumber;
-              DeviceTree.Nodes.Add(n);
-              nodeList[d.serialNumber] = new Tuple<TreeNode, Device>(n, d);
-             }
-            n.Text = d.friendlyName;
-            n.ImageIndex = computeIconIndex(d);
-            n.SelectedImageIndex = n.ImageIndex;
+        {
+          TreeNode n = FindNodeByName(d.serialNumber);
+          if (n == null)
+          {
+            n = new TreeNode();
+            n.Name = d.serialNumber;
+            DeviceTree.Nodes.Add(n);
+            nodeList[d.serialNumber] = new Tuple<TreeNode, Device>(n, d);
+          }
+          n.Text = d.friendlyName;
+          n.ImageIndex = computeIconIndex(d);
+          n.SelectedImageIndex = n.ImageIndex;
         }
-       else 
+        else
         {
           TreeNode p = null;
           if (d.parentHub != "")
           {
             TreeNode pNode = FindNodeByName(d.parentHub);
-             p = pNode;
+            p = pNode;
             foreach (TreeNode subnode in pNode.Nodes)
             {
               Device subDevice = nodeList[subnode.Name].Item2;
@@ -174,17 +170,13 @@ namespace YoctoDiscovery
             nodeList[d.serialNumber] = new Tuple<TreeNode, Device>(n, d);
           }
           else
-          { if (n.Parent!=p)
+          {
+            if (n.Parent != p)
             {
               n.Remove();
               if (p != null) p.Nodes.Add(n); else DeviceTree.Nodes.Add(n);
-
             }
-
-
           }
-
-
           n.ImageIndex = computeIconIndex(d);
           n.SelectedImageIndex = n.ImageIndex;
           n.Text = d.friendlyName;
@@ -196,6 +188,10 @@ namespace YoctoDiscovery
 
     public void log(string msg)
     {
+      logmgr.log(msg);
+
+      /*
+
       try
       { 
         if (logPanel.InvokeRequired)
@@ -210,21 +206,29 @@ namespace YoctoDiscovery
       }  catch (Exception) { }
     }
 
+      }
+    }  catch (Exception) { }
+    */
+    }
+
+
     public Form1()
     {
       InitializeComponent();
 
       showDevice(null);
+      logmgr = new LogManager(logPanel);
       scanner = new Yscanner(log, moduleChange);
+
 
     }
 
-      private void Form1_Load(object sender, EventArgs e)
+    private void Form1_Load(object sender, EventArgs e)
     {
 
       log("Application start, Welcome to Yocto-Discovery.");
 
-     
+
       log("Yocto-Discovery version is " + constants.buildVersion);
       log("Yoctopuce API version is " + YAPI.GetAPIVersion());
       log("Architecture is " + (IntPtr.Size * 8).ToString() + " bits (platform " + Environment.OSVersion.Platform.ToString() + ")");
@@ -257,7 +261,7 @@ namespace YoctoDiscovery
     private void DeviceTree_AfterSelect(object sender, TreeViewEventArgs e)
     {
 
-      Device d =  FindDeviceByname(e.Node);
+      Device d = FindDeviceByname(e.Node);
       showDevice(d);
     }
 
@@ -267,7 +271,8 @@ namespace YoctoDiscovery
     private const int WM_SETREDRAW = 0xB;
 
     public static void SuspendDrawing(Control target)
-    { if (constants.OSX_Running) return;   
+    {
+      if (constants.OSX_Running) return;
       SendMessage(target.Handle, WM_SETREDRAW, 0, 0); // makes Mono crash on macOS
     }
 
@@ -313,22 +318,14 @@ namespace YoctoDiscovery
         functionList.Visible = false;
         offlineLabel.Visible = true;
       }
-
-      
     }
-
-
-
-
-    
-
 
     private void showDevice(Device d)
     {
       _currentDevice = d;
       int y = 0;
 
-      if (d==null)
+      if (d == null)
       {
         devPanel.Visible = false;
         networkPanel.Visible = false;
@@ -353,11 +350,11 @@ namespace YoctoDiscovery
         else
         {
           TreeNode t = FindNodeByName("usb");
-          
-          if (t.Nodes.Count==0) USBstatus.Text ="No Yoctopuce device found on local USB";
+
+          if (t.Nodes.Count == 0) USBstatus.Text = "No Yoctopuce device found on local USB";
           else if (t.Nodes.Count == 1) USBstatus.Text = "One Yoctopuce device found on local USB";
           else USBstatus.Text = t.Nodes.Count.ToString() + " Yoctopuce devices found on local USB";
-         
+
         }
         y += usbPanel.Height;
       }
@@ -372,9 +369,19 @@ namespace YoctoDiscovery
         textBoxLogicalName.Text = d.logicalName;
         textBoxFirmware.Text = d.firmware;
         beaconState.Text = d.beaconActive ? "on" : "off";
-        BeaconLink.Text = d.beaconActive ? "Beacon off" : "Beacon on";
-        BeaconLink.Visible = d.isOnline;
-        textBoxStatus.Text = d.isOnline ? "online" : "offline";
+
+        if (!d.writeCredentialsRequired)
+        {
+          BeaconLink.Text = d.beaconActive ? "Beacon off" : "Beacon on";
+          BeaconLink.Visible = d.isOnline;
+          textBoxStatus.Text = d.isOnline ? "online" : "offline";
+          writeProtected.Visible = false;
+        }
+        else
+        {
+          BeaconLink.Visible = false;
+          writeProtected.Visible = true;
+        }
 
         y += devPanel.Height;
 
@@ -432,7 +439,10 @@ namespace YoctoDiscovery
     private void label9_Click(object sender, EventArgs e)
     {
       if (_currentDevice == null) return;
-      System.Diagnostics.Process.Start("http://"+ _currentDevice.ipAddr+":4444");
+
+      string addr = _currentDevice.ipAddr;
+      if (addr.IndexOf(":") < 0) addr = addr + ":4444";
+      System.Diagnostics.Process.Start("http://" + addr);
 
     }
 
@@ -440,5 +450,57 @@ namespace YoctoDiscovery
     {
       if (_currentDevice != null) _currentDevice.toggleBeacon();
     }
+  }
+
+
+
+  public class LogManager
+  {
+    List<String> buffer;
+    TextBox _logWindow;
+    public Mutex Lock = new Mutex();
+    System.Windows.Forms.Timer t;
+
+    public LogManager(TextBox logWindow)
+    {
+      _logWindow = logWindow;
+      buffer = new List<String>();
+      t = new System.Windows.Forms.Timer();
+      t.Interval = 200;
+      t.Tick += T_Tick;
+      t.Enabled = true;
+
+
+    }
+
+    private void T_Tick(object sender, EventArgs e)
+    {
+      refresh();
+    }
+
+    public void log(string msg)
+    {
+      string line = DateTime.Now.ToString("yyyy/MM/dd h:mm:ss.ff") + ' ' + msg + "\r\n";
+      Lock.WaitOne();
+      buffer.Add(line);
+      Lock.ReleaseMutex();
+    }
+
+
+    private void refresh()
+    {
+      if (buffer.Count <= 0) return;
+      Lock.WaitOne();
+      while (buffer.Count > 0)
+      {
+        _logWindow.AppendText(buffer[0]);
+        buffer.RemoveAt(0);
+      }
+      Lock.ReleaseMutex();
+
+    }
+
+
+
   }
 }

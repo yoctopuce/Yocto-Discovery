@@ -37,7 +37,6 @@
       this.splitContainer4 = new System.Windows.Forms.SplitContainer();
       this.DevicePanel = new System.Windows.Forms.Panel();
       this.helloPanel = new System.Windows.Forms.Panel();
-      this.VersionLabel = new System.Windows.Forms.Label();
       this.pictureBox2 = new System.Windows.Forms.PictureBox();
       this.label8 = new System.Windows.Forms.Label();
       this.label11 = new System.Windows.Forms.Label();
@@ -45,6 +44,7 @@
       this.USBstatus = new System.Windows.Forms.Label();
       this.label12 = new System.Windows.Forms.Label();
       this.functionsPanel = new System.Windows.Forms.Panel();
+      this.offlineLabel = new System.Windows.Forms.Label();
       this.functionList = new System.Windows.Forms.ListView();
       this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -73,12 +73,13 @@
       this.label2 = new System.Windows.Forms.Label();
       this.Banner = new System.Windows.Forms.Label();
       this.logPanel = new System.Windows.Forms.TextBox();
+      this.VersionLabel = new System.Windows.Forms.Label();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
       this.SearchParam = new System.Windows.Forms.TextBox();
       this.pictureBox1 = new System.Windows.Forms.PictureBox();
       this.searchtimer = new System.Windows.Forms.Timer(this.components);
       this.searchresult = new System.Windows.Forms.Label();
-      this.offlineLabel = new System.Windows.Forms.Label();
+      this.writeProtected = new System.Windows.Forms.Label();
       this.splitContainer3.Panel1.SuspendLayout();
       this.splitContainer3.Panel2.SuspendLayout();
       this.splitContainer3.SuspendLayout();
@@ -98,9 +99,9 @@
       // statusStrip2
       // 
       this.statusStrip2.AutoSize = false;
-      this.statusStrip2.Location = new System.Drawing.Point(0, 673);
+      this.statusStrip2.Location = new System.Drawing.Point(0, 771);
       this.statusStrip2.Name = "statusStrip2";
-      this.statusStrip2.Size = new System.Drawing.Size(757, 24);
+      this.statusStrip2.Size = new System.Drawing.Size(765, 24);
       this.statusStrip2.TabIndex = 0;
       this.statusStrip2.Text = "statusStrip2";
       // 
@@ -117,8 +118,8 @@
       // splitContainer3.Panel2
       // 
       this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-      this.splitContainer3.Size = new System.Drawing.Size(757, 673);
-      this.splitContainer3.SplitterDistance = 250;
+      this.splitContainer3.Size = new System.Drawing.Size(765, 771);
+      this.splitContainer3.SplitterDistance = 252;
       this.splitContainer3.TabIndex = 1;
       // 
       // DeviceTree
@@ -132,7 +133,7 @@
       this.DeviceTree.Location = new System.Drawing.Point(0, 0);
       this.DeviceTree.Name = "DeviceTree";
       this.DeviceTree.SelectedImageIndex = 0;
-      this.DeviceTree.Size = new System.Drawing.Size(250, 672);
+      this.DeviceTree.Size = new System.Drawing.Size(252, 770);
       this.DeviceTree.TabIndex = 0;
       this.DeviceTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.DeviceTree_AfterSelect);
       // 
@@ -159,8 +160,8 @@
       // splitContainer4.Panel2
       // 
       this.splitContainer4.Panel2.Controls.Add(this.logPanel);
-      this.splitContainer4.Size = new System.Drawing.Size(503, 673);
-      this.splitContainer4.SplitterDistance = 518;
+      this.splitContainer4.Size = new System.Drawing.Size(509, 771);
+      this.splitContainer4.SplitterDistance = 593;
       this.splitContainer4.TabIndex = 0;
       // 
       // DevicePanel
@@ -176,32 +177,21 @@
       this.DevicePanel.Controls.Add(this.devPanel);
       this.DevicePanel.Location = new System.Drawing.Point(0, 0);
       this.DevicePanel.Name = "DevicePanel";
-      this.DevicePanel.Size = new System.Drawing.Size(503, 516);
+      this.DevicePanel.Size = new System.Drawing.Size(509, 591);
       this.DevicePanel.TabIndex = 0;
       // 
       // helloPanel
       // 
       this.helloPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.helloPanel.Controls.Add(this.VersionLabel);
       this.helloPanel.Controls.Add(this.pictureBox2);
       this.helloPanel.Controls.Add(this.label8);
       this.helloPanel.Controls.Add(this.label11);
       this.helloPanel.Location = new System.Drawing.Point(3, 407);
       this.helloPanel.Name = "helloPanel";
-      this.helloPanel.Size = new System.Drawing.Size(495, 200);
+      this.helloPanel.Size = new System.Drawing.Size(501, 200);
       this.helloPanel.TabIndex = 9;
       this.helloPanel.Visible = false;
-      // 
-      // VersionLabel
-      // 
-      this.VersionLabel.AutoSize = true;
-      this.VersionLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
-      this.VersionLabel.Location = new System.Drawing.Point(5, 168);
-      this.VersionLabel.Name = "VersionLabel";
-      this.VersionLabel.Size = new System.Drawing.Size(41, 13);
-      this.VersionLabel.TabIndex = 3;
-      this.VersionLabel.Text = "version";
       // 
       // pictureBox2
       // 
@@ -232,7 +222,7 @@
       this.label11.ForeColor = System.Drawing.Color.White;
       this.label11.Location = new System.Drawing.Point(3, 5);
       this.label11.Name = "label11";
-      this.label11.Size = new System.Drawing.Size(489, 23);
+      this.label11.Size = new System.Drawing.Size(495, 23);
       this.label11.TabIndex = 0;
       this.label11.Text = "Hello";
       // 
@@ -244,7 +234,7 @@
       this.usbPanel.Controls.Add(this.label12);
       this.usbPanel.Location = new System.Drawing.Point(4, 366);
       this.usbPanel.Name = "usbPanel";
-      this.usbPanel.Size = new System.Drawing.Size(495, 75);
+      this.usbPanel.Size = new System.Drawing.Size(501, 75);
       this.usbPanel.TabIndex = 8;
       this.usbPanel.Visible = false;
       // 
@@ -264,7 +254,7 @@
       this.label12.ForeColor = System.Drawing.Color.White;
       this.label12.Location = new System.Drawing.Point(3, 5);
       this.label12.Name = "label12";
-      this.label12.Size = new System.Drawing.Size(489, 23);
+      this.label12.Size = new System.Drawing.Size(495, 23);
       this.label12.TabIndex = 0;
       this.label12.Text = "Local USB";
       // 
@@ -277,9 +267,18 @@
       this.functionsPanel.Controls.Add(this.label10);
       this.functionsPanel.Location = new System.Drawing.Point(3, 247);
       this.functionsPanel.Name = "functionsPanel";
-      this.functionsPanel.Size = new System.Drawing.Size(495, 121);
+      this.functionsPanel.Size = new System.Drawing.Size(501, 121);
       this.functionsPanel.TabIndex = 8;
       this.functionsPanel.Visible = false;
+      // 
+      // offlineLabel
+      // 
+      this.offlineLabel.AutoSize = true;
+      this.offlineLabel.Location = new System.Drawing.Point(23, 56);
+      this.offlineLabel.Name = "offlineLabel";
+      this.offlineLabel.Size = new System.Drawing.Size(228, 13);
+      this.offlineLabel.TabIndex = 2;
+      this.offlineLabel.Text = "Device is OFFLINE, can\'t access functions list.";
       // 
       // functionList
       // 
@@ -296,7 +295,7 @@
       this.functionList.GridLines = true;
       this.functionList.Location = new System.Drawing.Point(23, 31);
       this.functionList.Name = "functionList";
-      this.functionList.Size = new System.Drawing.Size(463, 79);
+      this.functionList.Size = new System.Drawing.Size(469, 79);
       this.functionList.TabIndex = 1;
       this.functionList.UseCompatibleStateImageBehavior = false;
       this.functionList.View = System.Windows.Forms.View.Details;
@@ -325,7 +324,7 @@
       this.label10.ForeColor = System.Drawing.Color.White;
       this.label10.Location = new System.Drawing.Point(3, 5);
       this.label10.Name = "label10";
-      this.label10.Size = new System.Drawing.Size(489, 23);
+      this.label10.Size = new System.Drawing.Size(495, 23);
       this.label10.TabIndex = 0;
       this.label10.Text = "Functions";
       // 
@@ -341,7 +340,7 @@
       this.networkPanel.Controls.Add(this.label7);
       this.networkPanel.Location = new System.Drawing.Point(4, 166);
       this.networkPanel.Name = "networkPanel";
-      this.networkPanel.Size = new System.Drawing.Size(495, 75);
+      this.networkPanel.Size = new System.Drawing.Size(501, 75);
       this.networkPanel.TabIndex = 7;
       this.networkPanel.Visible = false;
       // 
@@ -352,7 +351,7 @@
       this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
       this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.label9.ForeColor = System.Drawing.Color.Blue;
-      this.label9.Location = new System.Drawing.Point(375, 40);
+      this.label9.Location = new System.Drawing.Point(381, 40);
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(116, 13);
       this.label9.TabIndex = 5;
@@ -385,7 +384,7 @@
       this.textBoxMacAddr.Location = new System.Drawing.Point(98, 40);
       this.textBoxMacAddr.Name = "textBoxMacAddr";
       this.textBoxMacAddr.ReadOnly = true;
-      this.textBoxMacAddr.Size = new System.Drawing.Size(251, 13);
+      this.textBoxMacAddr.Size = new System.Drawing.Size(257, 13);
       this.textBoxMacAddr.TabIndex = 2;
       // 
       // label6
@@ -406,7 +405,7 @@
       this.label7.ForeColor = System.Drawing.Color.White;
       this.label7.Location = new System.Drawing.Point(3, 5);
       this.label7.Name = "label7";
-      this.label7.Size = new System.Drawing.Size(489, 23);
+      this.label7.Size = new System.Drawing.Size(495, 23);
       this.label7.TabIndex = 0;
       this.label7.Text = "Network";
       // 
@@ -414,6 +413,7 @@
       // 
       this.devPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.devPanel.Controls.Add(this.writeProtected);
       this.devPanel.Controls.Add(this.textBoxStatus);
       this.devPanel.Controls.Add(this.label14);
       this.devPanel.Controls.Add(this.BeaconLink);
@@ -430,7 +430,7 @@
       this.devPanel.Controls.Add(this.Banner);
       this.devPanel.Location = new System.Drawing.Point(3, 3);
       this.devPanel.Name = "devPanel";
-      this.devPanel.Size = new System.Drawing.Size(495, 129);
+      this.devPanel.Size = new System.Drawing.Size(501, 145);
       this.devPanel.TabIndex = 0;
       // 
       // textBoxStatus
@@ -441,7 +441,7 @@
       this.textBoxStatus.Location = new System.Drawing.Point(99, 92);
       this.textBoxStatus.Name = "textBoxStatus";
       this.textBoxStatus.ReadOnly = true;
-      this.textBoxStatus.Size = new System.Drawing.Size(388, 13);
+      this.textBoxStatus.Size = new System.Drawing.Size(394, 13);
       this.textBoxStatus.TabIndex = 14;
       // 
       // label14
@@ -460,7 +460,7 @@
       this.BeaconLink.Cursor = System.Windows.Forms.Cursors.Hand;
       this.BeaconLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.BeaconLink.ForeColor = System.Drawing.Color.Blue;
-      this.BeaconLink.Location = new System.Drawing.Point(425, 105);
+      this.BeaconLink.Location = new System.Drawing.Point(431, 105);
       this.BeaconLink.Name = "BeaconLink";
       this.BeaconLink.Size = new System.Drawing.Size(61, 13);
       this.BeaconLink.TabIndex = 12;
@@ -493,7 +493,7 @@
       this.textBoxFirmware.Location = new System.Drawing.Point(98, 79);
       this.textBoxFirmware.Name = "textBoxFirmware";
       this.textBoxFirmware.ReadOnly = true;
-      this.textBoxFirmware.Size = new System.Drawing.Size(388, 13);
+      this.textBoxFirmware.Size = new System.Drawing.Size(394, 13);
       this.textBoxFirmware.TabIndex = 8;
       // 
       // label4
@@ -513,7 +513,7 @@
       this.textBoxLogicalName.Location = new System.Drawing.Point(98, 66);
       this.textBoxLogicalName.Name = "textBoxLogicalName";
       this.textBoxLogicalName.ReadOnly = true;
-      this.textBoxLogicalName.Size = new System.Drawing.Size(388, 13);
+      this.textBoxLogicalName.Size = new System.Drawing.Size(394, 13);
       this.textBoxLogicalName.TabIndex = 6;
       // 
       // label3
@@ -533,7 +533,7 @@
       this.textBoxSerial.Location = new System.Drawing.Point(98, 53);
       this.textBoxSerial.Name = "textBoxSerial";
       this.textBoxSerial.ReadOnly = true;
-      this.textBoxSerial.Size = new System.Drawing.Size(388, 13);
+      this.textBoxSerial.Size = new System.Drawing.Size(394, 13);
       this.textBoxSerial.TabIndex = 4;
       // 
       // label1
@@ -553,7 +553,7 @@
       this.textBoxModel.Location = new System.Drawing.Point(98, 40);
       this.textBoxModel.Name = "textBoxModel";
       this.textBoxModel.ReadOnly = true;
-      this.textBoxModel.Size = new System.Drawing.Size(388, 13);
+      this.textBoxModel.Size = new System.Drawing.Size(394, 13);
       this.textBoxModel.TabIndex = 2;
       // 
       // label2
@@ -574,7 +574,7 @@
       this.Banner.ForeColor = System.Drawing.Color.White;
       this.Banner.Location = new System.Drawing.Point(3, 5);
       this.Banner.Name = "Banner";
-      this.Banner.Size = new System.Drawing.Size(489, 23);
+      this.Banner.Size = new System.Drawing.Size(495, 23);
       this.Banner.TabIndex = 0;
       this.Banner.Text = "Device";
       // 
@@ -589,8 +589,19 @@
       this.logPanel.Multiline = true;
       this.logPanel.Name = "logPanel";
       this.logPanel.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.logPanel.Size = new System.Drawing.Size(503, 147);
+      this.logPanel.Size = new System.Drawing.Size(509, 170);
       this.logPanel.TabIndex = 0;
+      // 
+      // VersionLabel
+      // 
+      this.VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.VersionLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
+      this.VersionLabel.Location = new System.Drawing.Point(642, 776);
+      this.VersionLabel.Name = "VersionLabel";
+      this.VersionLabel.Size = new System.Drawing.Size(110, 13);
+      this.VersionLabel.TabIndex = 3;
+      this.VersionLabel.Text = "version";
+      this.VersionLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
       // 
       // timer1
       // 
@@ -600,7 +611,7 @@
       // SearchParam
       // 
       this.SearchParam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.SearchParam.Location = new System.Drawing.Point(28, 675);
+      this.SearchParam.Location = new System.Drawing.Point(28, 773);
       this.SearchParam.Name = "SearchParam";
       this.SearchParam.Size = new System.Drawing.Size(100, 20);
       this.SearchParam.TabIndex = 2;
@@ -611,7 +622,7 @@
       this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
       this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-      this.pictureBox1.Location = new System.Drawing.Point(3, 676);
+      this.pictureBox1.Location = new System.Drawing.Point(3, 774);
       this.pictureBox1.Name = "pictureBox1";
       this.pictureBox1.Size = new System.Drawing.Size(18, 18);
       this.pictureBox1.TabIndex = 3;
@@ -625,23 +636,25 @@
       // 
       this.searchresult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.searchresult.AutoSize = true;
-      this.searchresult.Location = new System.Drawing.Point(134, 678);
+      this.searchresult.Location = new System.Drawing.Point(134, 776);
       this.searchresult.Name = "searchresult";
       this.searchresult.Size = new System.Drawing.Size(0, 13);
       this.searchresult.TabIndex = 4;
       // 
-      // offlineLabel
+      // writeProtected
       // 
-      this.offlineLabel.AutoSize = true;
-      this.offlineLabel.Location = new System.Drawing.Point(23, 56);
-      this.offlineLabel.Name = "offlineLabel";
-      this.offlineLabel.Size = new System.Drawing.Size(228, 13);
-      this.offlineLabel.TabIndex = 2;
-      this.offlineLabel.Text = "Device is OFFLINE, can\'t access functions list.";
+      this.writeProtected.AutoSize = true;
+      this.writeProtected.Location = new System.Drawing.Point(22, 124);
+      this.writeProtected.Name = "writeProtected";
+      this.writeProtected.Size = new System.Drawing.Size(291, 13);
+      this.writeProtected.TabIndex = 15;
+      this.writeProtected.Text = "This device is write protected, No access to beacon control.";
+      this.writeProtected.Visible = false;
       // 
       // Form1
       // 
-      this.ClientSize = new System.Drawing.Size(757, 697);
+      this.ClientSize = new System.Drawing.Size(765, 795);
+      this.Controls.Add(this.VersionLabel);
       this.Controls.Add(this.searchresult);
       this.Controls.Add(this.pictureBox1);
       this.Controls.Add(this.SearchParam);
@@ -661,7 +674,6 @@
       this.splitContainer4.ResumeLayout(false);
       this.DevicePanel.ResumeLayout(false);
       this.helloPanel.ResumeLayout(false);
-      this.helloPanel.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
       this.usbPanel.ResumeLayout(false);
       this.functionsPanel.ResumeLayout(false);
@@ -733,6 +745,7 @@
     private System.Windows.Forms.TextBox textBoxStatus;
     private System.Windows.Forms.Label label14;
     private System.Windows.Forms.Label offlineLabel;
+    private System.Windows.Forms.Label writeProtected;
   }
 }
 
