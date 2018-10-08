@@ -105,8 +105,8 @@ namespace YoctoDiscovery
     logFunction _log;
     bool _isNetworkDevice = false;
     bool _isShieldDevice = false;
-    bool  _readWriteCredentialsRequired = true;
-    bool _writeCredentialsRequired = true;
+    bool  _readWriteCredentialsRequired = false;
+    bool _writeCredentialsRequired = false;
     bool _isonline = false;
     string _friendlyName = "";
     string _hardwareId = "";
@@ -118,6 +118,8 @@ namespace YoctoDiscovery
     string _macAddr = "";
     string _firmware = "";
 
+    static Dictionary<string, Device> devicesList = new Dictionary<string, Device>();
+
 
     bool _beacon = false;
     public string friendlyName { get { return _friendlyName; } }
@@ -125,8 +127,31 @@ namespace YoctoDiscovery
     public string serialNumber { get { return _serial; } }
     public string parentHub { get { return _parentHub; } }
     public bool beaconActive { get { return _beacon; } }
-    public bool readWriteCredentialsRequired { get { return _readWriteCredentialsRequired; } }
-    public bool writeCredentialsRequired { get { return _writeCredentialsRequired; } }
+    public bool readWriteCredentialsRequired
+    {
+      get
+      {
+        if (_isNetworkDevice) return _readWriteCredentialsRequired;
+        if (devicesList.ContainsKey(_parentHub))
+        {
+          return devicesList[_parentHub].readWriteCredentialsRequired;
+        }
+        return _readWriteCredentialsRequired;
+      }
+    }
+
+    public bool writeCredentialsRequired
+    {
+      get
+      {
+        if (_isNetworkDevice) return _writeCredentialsRequired;
+        if (devicesList.ContainsKey(_parentHub))
+        {
+          return devicesList[_parentHub].writeCredentialsRequired;
+        }
+        return _writeCredentialsRequired;
+      }
+    }
 
     List<int> hubPorts = new List<int>();
     List<Tuple<String, String, String>> functions = new List<Tuple<String, String, String>>(); 
@@ -137,6 +162,8 @@ namespace YoctoDiscovery
       _url = url;
       _log = log;
       if (serial == "usb") _friendlyName = "Local USB";
+      devicesList[serial] = this;
+
      }
 
 
@@ -306,6 +333,18 @@ namespace YoctoDiscovery
             string p = n.get_adminPassword();
             _writeCredentialsRequired = (p=="*****");
           }
+
+        }
+        else
+        { 
+          if (devicesList.ContainsKey(_parentHub))
+            {
+            _readWriteCredentialsRequired = devicesList[_parentHub].readWriteCredentialsRequired;
+            _writeCredentialsRequired = devicesList[_parentHub].writeCredentialsRequired;
+
+
+          }
+
 
         }
 

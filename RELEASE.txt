@@ -1,3 +1,3 @@
-Yocto-Discovery v1.0.32312
+Yocto-Discovery v1.0.32572
 
--Fix macOS execution with VirtualHub running
+- Fix write protection report on sub devices
