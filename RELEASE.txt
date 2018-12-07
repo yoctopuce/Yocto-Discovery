@@ -1,3 +1,3 @@
-Yocto-Discovery v1.0.32572
+Yocto-Discovery v1.0.33576
 
-- Fix write protection report on sub devices
+- Improve disconnection detection of YoctoHubs/VirtualHub.

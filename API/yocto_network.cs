@@ -1,10 +1,10 @@
 /*********************************************************************
  *
- * $Id: yocto_network.cs 31373 2018-07-26 12:44:19Z seb $
+ *  $Id: yocto_network.cs 32899 2018-11-02 10:12:03Z seb $
  *
- * Implements yFindNetwork(), the high-level API for Network functions
+ *  Implements yFindNetwork(), the high-level API for Network functions
  *
- * - - - - - - - - - License information: - - - - - - - - -
+ *  - - - - - - - - - License information: - - - - - - - - -
  *
  *  Copyright (C) 2011 and beyond by Yoctopuce Sarl, Switzerland.
  *
@@ -1871,6 +1871,9 @@ public class YNetwork : YFunction
      * <summary>
      *   Continues the enumeration of network interfaces started using <c>yFirstNetwork()</c>.
      * <para>
+     *   Caution: You can't make any assumption about the returned network interfaces order.
+     *   If you want to find a specific a network interface, use <c>Network.findNetwork()</c>
+     *   and a hardwareID or a logical name.
      * </para>
      * </summary>
      * <returns>
