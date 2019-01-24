@@ -1,6 +1,6 @@
 /*********************************************************************
  *
- *  $Id: yocto_network.cs 32899 2018-11-02 10:12:03Z seb $
+ *  $Id: yocto_network.cs 34022 2019-01-15 18:21:34Z seb $
  *
  *  Implements yFindNetwork(), the high-level API for Network functions
  *
@@ -624,6 +624,8 @@ public class YNetwork : YFunction
      * <summary>
      *   Changes the IP address of the NTP server to be used by the module.
      * <para>
+     *   Use an empty
+     *   string to restore the factory set  address.
      *   Remember to call the <c>saveToFlash()</c> method and then to reboot the module to apply this setting.
      * </para>
      * <para>
@@ -824,7 +826,7 @@ public class YNetwork : YFunction
      *   Changes the default HTML page returned by the hub.
      * <para>
      *   If not value are set the hub return
-     *   "index.html" which is the web interface of the hub. It is possible de change this page
+     *   "index.html" which is the web interface of the hub. It is possible to change this page
      *   for file that has been uploaded on the hub.
      * </para>
      * <para>
@@ -885,7 +887,7 @@ public class YNetwork : YFunction
      *   Changes the default HTML page returned by the hub.
      * <para>
      *   If not value are set the hub return
-     *   "index.html" which is the web interface of the hub. It is possible de change this page
+     *   "index.html" which is the web interface of the hub. It is possible to change this page
      *   for file that has been uploaded on the hub.
      * </para>
      * <para>
@@ -1572,7 +1574,7 @@ public class YNetwork : YFunction
 
     /**
      * <summary>
-     *   Returns the current consumed by the module from Power-over-Ethernet (PoE), in milli-amps.
+     *   Returns the current consumed by the module from Power-over-Ethernet (PoE), in milliamps.
      * <para>
      *   The current consumption is measured after converting PoE source to 5 Volt, and should
      *   never exceed 1800 mA.
@@ -1581,7 +1583,7 @@ public class YNetwork : YFunction
      * </para>
      * </summary>
      * <returns>
-     *   an integer corresponding to the current consumed by the module from Power-over-Ethernet (PoE), in milli-amps
+     *   an integer corresponding to the current consumed by the module from Power-over-Ethernet (PoE), in milliamps
      * </returns>
      * <para>
      *   On failure, throws an exception or returns <c>YNetwork.POECURRENT_INVALID</c>.
@@ -1725,7 +1727,7 @@ public class YNetwork : YFunction
      * </param>
      * <param name="fallbackSubnetMaskLen">
      *   fallback subnet mask length when no DHCP reply is received, as an
-     *   integer (eg. 24 means 255.255.255.0)
+     *   integer (e.g. 24 means 255.255.255.0)
      * </param>
      * <param name="fallbackRouter">
      *   fallback router IP address, to be used when no DHCP reply is received
@@ -1775,7 +1777,7 @@ public class YNetwork : YFunction
      *   device IP address
      * </param>
      * <param name="subnetMaskLen">
-     *   subnet mask length, as an integer (eg. 24 means 255.255.255.0)
+     *   subnet mask length, as an integer (e.g. 24 means 255.255.255.0)
      * </param>
      * <param name="router">
      *   router IP address (default gateway)
@@ -1842,7 +1844,7 @@ public class YNetwork : YFunction
 
     /**
      * <summary>
-     *   Setup periodic HTTP callbacks (simplifed function).
+     *   Setup periodic HTTP callbacks (simplified function).
      * <para>
      * </para>
      * </summary>
