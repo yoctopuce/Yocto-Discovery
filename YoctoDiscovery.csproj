@@ -9,10 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>YoctoDiscovery</RootNamespace>
     <AssemblyName>YoctoDiscovery</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -59,6 +60,17 @@
     <Compile Include="scanner.cs" />
     <Compile Include="API\yocto_api.cs" />
     <Compile Include="API\yocto_network.cs" />
+    <Compile Include="UpdateAppLibrary\NewRelease.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateAppLibrary\NewRelease.Designer.cs">
+      <DependentUpon>NewRelease.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateAppLibrary\YAppInterface.cs" />
+    <Compile Include="UpdateAppLibrary\YAppRelease.cs" />
+    <EmbeddedResource Include="UpdateAppLibrary\NewRelease.resx">
+      <DependentUpon>NewRelease.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -112,11 +124,19 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target>
   -->
+    <PropertyGroup>
+    <!-- Allows the project to be compiled with .NET 4.0 (Windows XP  compatibity) -->
+    <!-- https://docs.microsoft.com/en-us/dotnet/framework/install/on-windows-xp -->
+    <DefineConstants Condition="'$(TargetFrameworkVersion)'=='v4.0'">NET40</DefineConstants>
+    <!-- Allows the project to be compiled with .NET 3.5 (Windows XP  compatibity) -->
+    <DefineConstants Condition="'$(TargetFrameworkVersion)'=='v3.5'">NET35</DefineConstants>
+  </PropertyGroup>
+
 </Project>
