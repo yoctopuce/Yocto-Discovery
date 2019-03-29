@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("YoctoDevicesScan")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Yocto-Discovery")]
+[assembly: AssemblyDescription("Scanner for Yoctopuce networked  devices")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("YoctoDevicesScan")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("Yoctopuce")]
+[assembly: AssemblyProduct("YoctoDiscovery")]
+[assembly: AssemblyCopyright("(c) Yoctopuce Sarl 2018 and beyond")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

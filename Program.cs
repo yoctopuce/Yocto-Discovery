@@ -51,13 +51,13 @@ namespace YoctoDiscovery
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    static void Main(String[] args)
     {
       string errmsg;
 
       if (constants.CheckMonoVersion(out errmsg))
       {
-
+        constants.init(args);
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
         Application.Run(new Form1());

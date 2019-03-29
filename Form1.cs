@@ -186,6 +186,11 @@ namespace YoctoDiscovery
       }
     }
 
+
+   
+
+
+
     public void log(string msg)
     {
       logmgr.log(msg);
@@ -219,6 +224,10 @@ namespace YoctoDiscovery
       showDevice(null);
       logmgr = new LogManager(logPanel);
       scanner = new Yscanner(log, moduleChange);
+
+      /*<NOTINGITHUB>*/
+      new UpdateAppLibrary.YAppReleaseManager(new AppDescription()).StartBackgroundCheckForUpdates();
+      /*</NOTINGITHUB>*/
 
 
     }
@@ -255,7 +264,9 @@ namespace YoctoDiscovery
 
     private void Form1_FormClosing(object sender, FormClosingEventArgs e)
     {
+      constants.SaveConfig();
       if (scanner != null) scanner.Stop();
+      
     }
 
     private void DeviceTree_AfterSelect(object sender, TreeViewEventArgs e)
