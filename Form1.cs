@@ -225,9 +225,6 @@ namespace YoctoDiscovery
       logmgr = new LogManager(logPanel);
       scanner = new Yscanner(log, moduleChange);
 
-      /*<NOTINGITHUB>*/
-      new UpdateAppLibrary.YAppReleaseManager(new AppDescription()).StartBackgroundCheckForUpdates();
-      /*</NOTINGITHUB>*/
 
 
     }

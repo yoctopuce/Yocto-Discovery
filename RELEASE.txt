@@ -1,3 +1,0 @@
-Yocto-Discovery v1.0.34868
-
-- Beta Test
