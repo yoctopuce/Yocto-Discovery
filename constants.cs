@@ -49,11 +49,15 @@ namespace YoctoDiscovery
   class constants
   {
 
-    public static string buildVersion = "35652";
+    public static string buildVersion = "35871";
     private static string _configfile = Path.Combine(Application.UserAppDataPath, "config.xml");
     // note : automatic check for updates is not implemented on the GitHub version.
     private static bool _forceCheckForUpdate = false;
     private static bool _checkforUpdate = true;
+    private static bool _kioskMode  = false;
+    private static bool _bigFonts = false;
+    private static bool _hideLogs = false;
+
     public static bool checkForUpdate { get { return _checkforUpdate || _forceCheckForUpdate; } set { _checkforUpdate = value; } }
     private static int _UpdateIgnoreBuild = 0;
     public static int updateIgnoreBuild { get { return _UpdateIgnoreBuild; } set { _UpdateIgnoreBuild = value; } }
@@ -66,6 +70,9 @@ namespace YoctoDiscovery
     private static bool _MonoRunning = (Type.GetType("Mono.Runtime") != null);
     public static bool MonoRunning { get { return _MonoRunning; } }
     private static string MonoMinVersion { get { return "4.0"; } }
+    public static bool kioskMode { get {return _kioskMode; } }
+    public static bool bigFonts { get { return _bigFonts; } }
+    public static bool  hideLogs { get { return _hideLogs; } }
     public static string MonoVersion
     {
       get
@@ -106,8 +113,13 @@ namespace YoctoDiscovery
     {
       for (int i = 0; i < args.Length; i++)
       {
-        if (args[i] == "-check4updates")
-          _forceCheckForUpdate = true;
+        if (args[i] == "-check4updates")  _forceCheckForUpdate = true;
+
+        if (args[i] == "-kiosk")  _kioskMode = true;
+
+        if (args[i] == "-bigfonts") _bigFonts = true;
+
+        if (args[i] == "-hidelogs") _hideLogs = true;
       }
       LoadConfig();
     }

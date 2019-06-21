@@ -233,6 +233,12 @@ namespace YoctoDiscovery
     {
 
       log("Application start, Welcome to Yocto-Discovery.");
+      log("Command line options:");
+      log(" -check4updates :  re-enable updates checks");
+
+      log(" -kiosk         :  kiosk mode");
+      log(" -bigfonts      :  Enlarge tree chooser fonts");
+      log(" -hidelogs      :  Hides the logs part");
 
 
       log("Yocto-Discovery version is " + constants.buildVersion);
@@ -256,7 +262,25 @@ namespace YoctoDiscovery
 
       }
 
-      scanner.Start();
+      if (constants.kioskMode)
+      {
+        this.WindowState = FormWindowState.Maximized;
+        this.MaximizeBox = false;
+        this.MinimizeBox = false;        
+      }
+
+      if (constants.hideLogs)
+      {
+        splitContainer4.Panel2Collapsed = true;
+        splitContainer4.Panel2.Hide();
+      }
+
+      if (constants.bigFonts)
+      {
+        DeviceTree.Font = new Font(DeviceTree.Font.FontFamily, (float)(DeviceTree.Font.Size * 1.5));       
+      }
+
+        scanner.Start();
     }
 
     private void Form1_FormClosing(object sender, FormClosingEventArgs e)

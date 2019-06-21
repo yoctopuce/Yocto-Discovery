@@ -58,6 +58,7 @@
       this.label6 = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
       this.devPanel = new System.Windows.Forms.Panel();
+      this.writeProtected = new System.Windows.Forms.Label();
       this.textBoxStatus = new System.Windows.Forms.TextBox();
       this.label14 = new System.Windows.Forms.Label();
       this.BeaconLink = new System.Windows.Forms.Label();
@@ -79,7 +80,6 @@
       this.pictureBox1 = new System.Windows.Forms.PictureBox();
       this.searchtimer = new System.Windows.Forms.Timer(this.components);
       this.searchresult = new System.Windows.Forms.Label();
-      this.writeProtected = new System.Windows.Forms.Label();
       this.splitContainer3.Panel1.SuspendLayout();
       this.splitContainer3.Panel2.SuspendLayout();
       this.splitContainer3.SuspendLayout();
@@ -364,7 +364,7 @@
       this.textBoxIPAddr.Location = new System.Drawing.Point(98, 53);
       this.textBoxIPAddr.Name = "textBoxIPAddr";
       this.textBoxIPAddr.ReadOnly = true;
-      this.textBoxIPAddr.Size = new System.Drawing.Size(92, 13);
+      this.textBoxIPAddr.Size = new System.Drawing.Size(264, 13);
       this.textBoxIPAddr.TabIndex = 4;
       // 
       // label5
@@ -432,6 +432,16 @@
       this.devPanel.Name = "devPanel";
       this.devPanel.Size = new System.Drawing.Size(501, 145);
       this.devPanel.TabIndex = 0;
+      // 
+      // writeProtected
+      // 
+      this.writeProtected.AutoSize = true;
+      this.writeProtected.Location = new System.Drawing.Point(22, 124);
+      this.writeProtected.Name = "writeProtected";
+      this.writeProtected.Size = new System.Drawing.Size(291, 13);
+      this.writeProtected.TabIndex = 15;
+      this.writeProtected.Text = "This device is write protected, No access to beacon control.";
+      this.writeProtected.Visible = false;
       // 
       // textBoxStatus
       // 
@@ -640,16 +650,6 @@
       this.searchresult.Name = "searchresult";
       this.searchresult.Size = new System.Drawing.Size(0, 13);
       this.searchresult.TabIndex = 4;
-      // 
-      // writeProtected
-      // 
-      this.writeProtected.AutoSize = true;
-      this.writeProtected.Location = new System.Drawing.Point(22, 124);
-      this.writeProtected.Name = "writeProtected";
-      this.writeProtected.Size = new System.Drawing.Size(291, 13);
-      this.writeProtected.TabIndex = 15;
-      this.writeProtected.Text = "This device is write protected, No access to beacon control.";
-      this.writeProtected.Visible = false;
       // 
       // Form1
       // 
