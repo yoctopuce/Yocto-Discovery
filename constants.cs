@@ -49,7 +49,7 @@ namespace YoctoDiscovery
   class constants
   {
 
-    public static string buildVersion = "35900";
+    public static string buildVersion = "35917";
     private static string _configfile = Path.Combine(Application.UserAppDataPath, "config.xml");
     // note : automatic check for updates is not implemented on the GitHub version.
     private static bool _forceCheckForUpdate = false;
