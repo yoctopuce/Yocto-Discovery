@@ -89,6 +89,8 @@ cp ../libyapi-armhf.so yoctodiscovery/usr/lib/Yocto-Discovery/libyapi-armhf.so
 chmod 0644 yoctodiscovery/usr/lib/Yocto-Discovery/libyapi-armhf.so
 cp ../libyapi-i386.so yoctodiscovery/usr/lib/Yocto-Discovery
 chmod 0644 yoctodiscovery/usr/lib/Yocto-Discovery/libyapi-i386.so
+cp ../libyapi-aarch64.so yoctodiscovery/usr/lib/Yocto-Discovery
+chmod 0644 yoctodiscovery/usr/lib/Yocto-Discovery/libyapi-aarch64.so
 
 #copy binary
 cp  ../bin/Release/YoctoDiscovery.exe yoctodiscovery/usr/lib/Yocto-Discovery
