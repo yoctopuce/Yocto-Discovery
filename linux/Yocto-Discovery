@@ -1,2 +1,3 @@
 #!/bin/bash
+cd /usr/lib/Yocto-Discovery/
 exec mono /usr/lib/Yocto-Discovery/YoctoDiscovery.exe
