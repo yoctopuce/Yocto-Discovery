@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
  *   Yocto-Discovery, a free application to locate Yoctopuce devices.
  * 
  *  some global constant and framework version management
@@ -37,168 +36,209 @@
  */
 
 using System;
-
 using System.IO;
-
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
 
 namespace YoctoDiscovery
 {
-  class constants
-  {
-
-    public static string buildVersion = "38545";
-    private static string _configfile = Path.Combine(Application.UserAppDataPath, "config.xml");
-    // note : automatic check for updates is not implemented on the GitHub version.
-    private static bool _forceCheckForUpdate = false;
-    private static bool _checkforUpdate = true;
-    private static bool _kioskMode  = false;
-    private static bool _bigFonts = false;
-    private static bool _hideLogs = false;
-
-    public static bool checkForUpdate { get { return _checkforUpdate || _forceCheckForUpdate; } set { _checkforUpdate = value; } }
-    private static int _UpdateIgnoreBuild = 0;
-    public static int updateIgnoreBuild { get { return _UpdateIgnoreBuild; } set { _UpdateIgnoreBuild = value; } }
-
-
-    public static bool _OSX_Running = (Environment.OSVersion.Platform == PlatformID.Unix &&
-                                       Directory.Exists("/Applications") && Directory.Exists("/System") &&
-                                       Directory.Exists("/Users") && Directory.Exists("/Volumes"));
-    public static bool OSX_Running { get { return _OSX_Running; } }
-    private static bool _MonoRunning = (Type.GetType("Mono.Runtime") != null);
-    public static bool MonoRunning { get { return _MonoRunning; } }
-    private static string MonoMinVersion { get { return "4.0"; } }
-    public static bool kioskMode { get {return _kioskMode; } }
-    public static bool bigFonts { get { return _bigFonts; } }
-    public static bool  hideLogs { get { return _hideLogs; } }
-    public static string MonoVersion
+    class constants
     {
-      get
-      {
-        Type type = Type.GetType("Mono.Runtime");
-        if (type != null)
-        {
-          MethodInfo displayName = type.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
-          if (displayName != null)
-            return displayName.Invoke(null, null).ToString();
-          else
-            return "unknown";
-        }
-        return "Not in Mono";
-      }
-    }
+        public static string buildVersion = "39218";
 
+        private static string _configfile = Path.Combine(Application.UserAppDataPath, "config.xml");
 
-    public static bool CheckMonoVersion(out string errmsg)
-    {
-      errmsg = "";
-      if (!MonoRunning) return true;
-      string[] requirement = MonoMinVersion.Split(new[] { "." }, StringSplitOptions.None);
-      string[] value = MonoVersion.Split(new[] { " " }, StringSplitOptions.None)[0].Split(new[] { "." }, StringSplitOptions.None);
-      for (int i = 0; i < Math.Min(requirement.Length, value.Length); i++)
-      {
-        if (Int32.Parse(value[i]) < Int32.Parse(requirement[i]))
-        {
-          errmsg = "Yocto-Discovery requires at least Mono " + MonoMinVersion + ", installed version is " + MonoVersion;
-          return false;
+        // note : automatic check for updates is not implemented on the GitHub version.
+        private static bool _forceCheckForUpdate = false;
+        private static bool _checkforUpdate = true;
+        private static bool _kioskMode = false;
+        private static bool _bigFonts = false;
+        private static bool _hideLogs = false;
+
+        public static bool checkForUpdate {
+            get { return _checkforUpdate || _forceCheckForUpdate; }
+            set { _checkforUpdate = value; }
         }
 
-      }
-      return true;
-    }
+        private static int _UpdateIgnoreBuild = 0;
 
-    public static void init(String[] args)
-    {
-      for (int i = 0; i < args.Length; i++)
-      {
-        if (args[i] == "-check4updates")  _forceCheckForUpdate = true;
-
-        if (args[i] == "-kiosk")  _kioskMode = true;
-
-        if (args[i] == "-bigfonts") _bigFonts = true;
-
-        if (args[i] == "-hidelogs") _hideLogs = true;
-      }
-      LoadConfig();
-    }
-
-
-    public static void InitCheckForUpdateParams(XmlNode memNode)
-    {
-      foreach (XmlNode node in memNode.ChildNodes)
-      {
-        switch (node.Name)
-        {
-          case "checkForUpdate":
-            bool bvalue;
-            if (bool.TryParse(node.Attributes["value"].InnerText, out bvalue)) checkForUpdate = bvalue;
-            break;
-
-          case "ignoreBuild":
-            int ivalue;
-            if (Int32.TryParse(node.Attributes["value"].InnerText, out ivalue)) updateIgnoreBuild = ivalue;
-            break;
-
+        public static int updateIgnoreBuild {
+            get { return _UpdateIgnoreBuild; }
+            set { _UpdateIgnoreBuild = value; }
         }
-      }
-    }
 
 
+        public static bool _OSX_Running = (Environment.OSVersion.Platform == PlatformID.Unix && Directory.Exists("/Applications") && Directory.Exists("/System") && Directory.Exists("/Users") && Directory.Exists("/Volumes"));
 
-    public static string GetXMLConfiguration()
-    {
-      string res = "<Config>\n";
-      res += "  <Updates>\n";
-      res += "    <checkForUpdate  value = \"" + constants.checkForUpdate.ToString() + "\"/>\n";
-      res += "    <ignoreBuild  value = \"" + constants.updateIgnoreBuild.ToString() + "\"/>\n";
-      res += "  </Updates>\n";
-      res += "</Config>\n";
-      return res;
-    }
+        public static bool OSX_Running {
+            get { return _OSX_Running; }
+        }
 
-    public static void SaveConfig()
-    {
-      string XmlConfigFile = "<?xml version=\"1.0\" ?>\n<ROOT version='1'>\n";
-      XmlConfigFile += constants.GetXMLConfiguration();
-      XmlConfigFile += "</ROOT>\n";
-      try
-      {
-        TextWriter tw = File.CreateText(_configfile);
-        tw.WriteLine(XmlConfigFile);
-        tw.Close();
-      }
-      catch (Exception e)
-      {
-        MessageBox.Show("Can't save configuration file:\n" + e.Message + "\nSorry.");
-      }
-    }
+        private static bool _MonoRunning = (Type.GetType("Mono.Runtime") != null);
 
-    public static void LoadConfig()
-    {
-      if (File.Exists(_configfile))
-      {
-        XmlDocument doc = new XmlDocument();
-        doc.Load(_configfile);
-        foreach (XmlNode node in doc.DocumentElement.ChildNodes)
-        {
-          switch (node.Name)
-          {
-            case "Config":
-              foreach (XmlNode snode in node.ChildNodes)
-              {
-                switch (snode.Name)
-                {
-                  case "Updates":
-                    InitCheckForUpdateParams(snode);
-                    break;
+        public static bool MonoRunning {
+            get { return _MonoRunning; }
+        }
+
+        private static string MonoMinVersion {
+            get { return "4.0"; }
+        }
+
+        public static bool kioskMode {
+            get { return _kioskMode; }
+        }
+
+        public static bool bigFonts {
+            get { return _bigFonts; }
+        }
+
+        public static bool hideLogs {
+            get { return _hideLogs; }
+        }
+
+        public static string MonoVersion {
+            get
+            {
+                Type type = Type.GetType("Mono.Runtime");
+                if (type != null) {
+                    MethodInfo displayName = type.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
+                    if (displayName != null)
+                        return displayName.Invoke(null, null).ToString();
+                    else
+                        return "unknown";
                 }
-              }
-              break;
-          }
+
+                return "Not in Mono";
+            }
         }
-      }
+
+
+        public static bool CheckMonoVersion(out string errmsg)
+        {
+            errmsg = "";
+            if (!MonoRunning) return true;
+            string[] requirement = MonoMinVersion.Split(new[] {"."}, StringSplitOptions.None);
+            string[] value = MonoVersion.Split(new[] {" "}, StringSplitOptions.None)[0].Split(new[] {"."}, StringSplitOptions.None);
+            for (int i = 0; i < Math.Min(requirement.Length, value.Length); i++) {
+                if (Int32.Parse(value[i]) < Int32.Parse(requirement[i])) {
+                    errmsg = "Yocto-Discovery requires at least Mono " + MonoMinVersion + ", installed version is " + MonoVersion;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static void init(String[] args)
+        {
+            for (int i = 0; i < args.Length; i++) {
+                if (args[i] == "-check4updates") _forceCheckForUpdate = true;
+
+                if (args[i] == "-kiosk") _kioskMode = true;
+
+                if (args[i] == "-bigfonts") _bigFonts = true;
+
+                if (args[i] == "-hidelogs") _hideLogs = true;
+            }
+
+            CheckForPreviousConfig("1.0");
+            LoadConfig();
+        }
+
+        private static void CheckForPreviousConfig(string version)
+        {
+            if (!File.Exists(_configfile)) {
+                //look if there is a previous applications setting in the UserAppDataPath directory
+                DirectoryInfo dir = Directory.GetParent(Application.UserAppDataPath);
+                DirectoryInfo[] directories = dir.GetDirectories(version + ".*.*");
+                int max = 0;
+                string previous = version + ".0.0";
+                foreach (DirectoryInfo dirinfo in directories) {
+                    if (dirinfo.Name == Application.ProductVersion) {
+                        continue;
+                    }
+
+                    string[] parts = dirinfo.Name.Split(".".ToCharArray());
+                    int b = Int32.Parse(parts[2]);
+                    if (b > max) {
+                        max = b;
+                        previous = dirinfo.Name;
+                    }
+                }
+
+                string previousPath = Path.Combine(dir.FullName, previous);
+                string previousSettings = Path.Combine(previousPath, "config.xml");
+                if (File.Exists(previousSettings)) {
+                    File.Copy(previousSettings, _configfile);
+                }
+            }
+        }
+
+
+        public static void InitCheckForUpdateParams(XmlNode memNode)
+        {
+            foreach (XmlNode node in memNode.ChildNodes) {
+                switch (node.Name) {
+                    case "checkForUpdate":
+                        bool bvalue;
+                        if (bool.TryParse(node.Attributes["value"].InnerText, out bvalue)) checkForUpdate = bvalue;
+                        break;
+
+                    case "ignoreBuild":
+                        int ivalue;
+                        if (Int32.TryParse(node.Attributes["value"].InnerText, out ivalue)) updateIgnoreBuild = ivalue;
+                        break;
+                }
+            }
+        }
+
+
+        public static string GetXMLConfiguration()
+        {
+            string res = "<Config>\n";
+            res += "  <Updates>\n";
+            res += "    <checkForUpdate  value = \"" + constants.checkForUpdate.ToString() + "\"/>\n";
+            res += "    <ignoreBuild  value = \"" + constants.updateIgnoreBuild.ToString() + "\"/>\n";
+            res += "  </Updates>\n";
+            res += "</Config>\n";
+            return res;
+        }
+
+        public static void SaveConfig()
+        {
+            string XmlConfigFile = "<?xml version=\"1.0\" ?>\n<ROOT version='1'>\n";
+            XmlConfigFile += constants.GetXMLConfiguration();
+            XmlConfigFile += "</ROOT>\n";
+            try {
+                TextWriter tw = File.CreateText(_configfile);
+                tw.WriteLine(XmlConfigFile);
+                tw.Close();
+            } catch (Exception e) {
+                MessageBox.Show("Can't save configuration file:\n" + e.Message + "\nSorry.");
+            }
+        }
+
+        public static void LoadConfig()
+        {
+            if (File.Exists(_configfile)) {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(_configfile);
+                foreach (XmlNode node in doc.DocumentElement.ChildNodes) {
+                    switch (node.Name) {
+                        case "Config":
+                            foreach (XmlNode snode in node.ChildNodes) {
+                                switch (snode.Name) {
+                                    case "Updates":
+                                        InitCheckForUpdateParams(snode);
+                                        break;
+                                }
+                            }
+
+                            break;
+                    }
+                }
+            }
+        }
     }
-  }
 }
