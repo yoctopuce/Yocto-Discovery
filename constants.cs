@@ -45,7 +45,7 @@ namespace YoctoDiscovery
 {
     class constants
     {
-        public static string buildVersion = "48304";
+        public static string buildVersion = "48405";
 
         private static string _configfile = Path.Combine(Application.UserAppDataPath, "config.xml");
 
