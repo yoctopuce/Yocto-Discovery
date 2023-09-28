@@ -5,7 +5,7 @@
 ## monodevelop  (sudo apt-get install monodevelop)
 
 
-sudo rm -rf yoctodiscovery
+rm -rf yoctodiscovery
 
 mkdir --mode=755 yoctodiscovery/
 mkdir --mode=755 yoctodiscovery/usr/
@@ -98,11 +98,5 @@ cp  YoctoDiscovery.exe.config yoctodiscovery/usr/lib/Yocto-Discovery
 chmod 755 yoctodiscovery/usr/lib/Yocto-Discovery/YoctoDiscovery.exe
 chmod 644 yoctodiscovery/usr/lib/Yocto-Discovery/YoctoDiscovery.exe.config
 
-#set all file to root user
-sudo chown -R root:root yoctodiscovery
-
-
-dpkg-deb --build yoctodiscovery
-
-
+fakeroot dpkg-deb --build yoctodiscovery
 lintian yoctodiscovery.deb
