@@ -1,5 +1,5 @@
 Package: yoctodiscovery
-Version: 1.0.57097
+Version: 1.0.57482
 Depends: libc6, libusb-1.0-0
 Priority: optional
 Architecture: all

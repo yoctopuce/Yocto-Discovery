@@ -98,5 +98,5 @@ cp  YoctoDiscovery.exe.config yoctodiscovery/usr/lib/Yocto-Discovery
 chmod 755 yoctodiscovery/usr/lib/Yocto-Discovery/YoctoDiscovery.exe
 chmod 644 yoctodiscovery/usr/lib/Yocto-Discovery/YoctoDiscovery.exe.config
 
-fakeroot dpkg-deb --build yoctodiscovery
+fakeroot dpkg-deb -Zxz --build yoctodiscovery
 lintian yoctodiscovery.deb
